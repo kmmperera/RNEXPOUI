@@ -9,7 +9,8 @@ const initState = {
 	feed:{},
 	deletedpost:{},
 	postbyid:{},
-	newpost:false,
+	newpostcreated:false,
+	postdeleted:false,
 }
 
 const post= (state = initState, action) => {
@@ -33,7 +34,7 @@ const post= (state = initState, action) => {
 				error:null,
 				posts:{...action.payload.postswithpropic , ...state.posts  },
 				feed:{...action.payload.postswithpropic , ...state.feed},
-				newpost:true,
+				newpostcreated:true,
 				
             }
             break;		
@@ -186,6 +187,7 @@ case "deletepostsuccess":
 				deletedpost:action.payload.deletedPost,
 				posts:newposts,
 				feed:newfeed,
+				postdeleted:true,
             }
             break;
 case "deletepostfailed":
@@ -197,13 +199,18 @@ case "deletepostfailed":
             break;			
 
 			
-			
-case "setnewpost" :
+case "unmountcreatepostcompo":
 			state={
 				...state,
-				newpost:action.payload.val,
+				newpostcreated:false,
+			}		
+			break;	
+case "unmountpostdetails":
+			state={
+				...state,
+				postdeleted:false,
 			}			
-			break;
+
 	default:
 		state={...state,}
 

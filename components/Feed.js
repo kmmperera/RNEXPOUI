@@ -7,7 +7,7 @@ import Feeditem from './Feeditem';
 import {Feather} from '@expo/vector-icons';
 import {useNavigation} from '@react-navigation/native';
 
-import {createpost,  getNewsFeed} from '../actions/admin/post';
+import {createpost,  getNewsFeed,redirectafterpost} from '../actions/admin/post';
 
 
 export default function Feed() {
@@ -37,12 +37,9 @@ export default function Feed() {
 
     }, [postred.feed]);
 
-    // useEffect(()=>{
+   
 
-    //     setUpdates(!updates);
-
-    // },[postred.likedpost,postred.unlikedpost]);
-
+  
 
     const navigation =useNavigation();
     return (

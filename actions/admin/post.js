@@ -1,6 +1,5 @@
 //import axios from 'axios';
 import axios from '../../API/apiaxios';
-import {async} from '../../node_modules/node-stream-zip';
 
 
 const createpost=(details)=>{
@@ -247,12 +246,20 @@ const deletePost=(details)=>{
 
 }
 
-const setnewpost=(val)=>{
-	// return async(dispatch)=>{
-	// 	dispatch({ type: "setnewpost",payload:{val}});
+const redirectafterpost =(val)=>{
 
-	// }
+	return async(dispatch)=>{
+		dispatch({ type: "unmountcreatepostcompo",payload:{val}});
 
+	}
 }
 
-export {createpost,getpostbyuser,postByID,getNewsFeed,deletePost,like,unlike,comment,deletecomment,setnewpost};
+const redirectafterdeletepost =(val)=>{
+
+	return async(dispatch)=>{
+		dispatch({ type: "unmountpostdetails",payload:{val}});
+
+	}
+}
+
+export {createpost,getpostbyuser,postByID,getNewsFeed,deletePost,like,unlike,comment,deletecomment,redirectafterpost,redirectafterdeletepost};

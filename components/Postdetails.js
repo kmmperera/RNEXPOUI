@@ -1,19 +1,20 @@
-import React ,{useState,useEffect,useRef}from 'react';
-import { useDispatch, useSelector } from "react-redux";
+import React, {useState, useEffect, useRef} from 'react';
+import {useDispatch, useSelector} from "react-redux";
 
 import {Text, View, StyleSheet, TouchableOpacity, SafeAreaView, Image, FlatList, TextInput} from 'react-native';
 import {useRoute, useNavigation} from "@react-navigation/native";
 import {EvilIcons} from "@expo/vector-icons";
 import {AntDesign} from '@expo/vector-icons';
+import {MaterialIcons} from '@expo/vector-icons';
 import Commentitem from './Commentitem';
 
-import {deletePost, like, unlike,comment} from '../actions/admin/post';
+import {deletePost, like, unlike, comment, redirectafterdeletepost} from '../actions/admin/post';
 
 export default function Postdetails() {
 
     const {params: {item, previous_screen}, } = useRoute();
     const navigation = useNavigation();
-    const commentref =useRef(null);
+    const commentref = useRef(null);
 
     const [deletedcommentid, setDeletedcommentid] = useState("");
     const dummyimg = "https://mernecombucket.s3.amazonaws.com/dAInx6qFL-nopic2.jpg";
@@ -31,6 +32,26 @@ export default function Postdetails() {
     const [dislikedpostid, setDislikedpostid] = useState("");
     let hasliked = newitem.likes && newitem.likes.includes(userred._id);
     let hascomments = newitem.comments && newitem.comments.length > 0;
+
+
+    useEffect(() => {
+
+
+
+        if (postred.postdeleted == true) {
+
+            previous_screen == "Profile" ? navigation.navigate("Profile") : navigation.goBack();
+           
+        }
+
+        return () => {
+            let obj = {val: false};
+            dispatch(redirectafterdeletepost(obj));
+        }
+
+
+    }, [postred.postdeleted]);
+
 
     useEffect(() => {
 
@@ -61,30 +82,30 @@ export default function Postdetails() {
 
     useEffect(() => {
 
-      setNewitem(item);
-      //  item=postred.feed[item._id];
+        setNewitem(item);
+        //  item=postred.feed[item._id];
 
     }, [item]);
 
 
     useEffect(() => {
-        if(previous_screen == "Profile"){
+        if (previous_screen == "Profile") {
             setNewitem(postred.posts[item._id]);
 
         }
-        else{ 
-        setNewitem(postred.feed[item._id]);
-      
+        else {
+            setNewitem(postred.feed[item._id]);
+
         }
-    }, [postred.feed,postred.posts]);
+    }, [postred.feed, postred.posts]);
 
 
 
 
     const newcomment = () => {
-       
+
         if (textarea && textarea != "") {
-            dispatch(comment({ postId: newitem._id, comment: { postedBy:userred._id , text: textarea } }));
+            dispatch(comment({postId: newitem._id, comment: {postedBy: userred._id, text: textarea}}));
             setTextarea("");
             commentref.current.clear();
 
@@ -141,8 +162,8 @@ export default function Postdetails() {
                                 <Text style={Mystyles.postactiondatatext}>{newitem.comments.length}</Text>
                             </View>
                             <View style={Mystyles.iconwrapperview}>
-                                <TouchableOpacity onPress={() => { hasliked ? setDislikedpostid(newitem._id) : setLikedpostid(item._id) }}>
-                                    <EvilIcons style={hasliked ? Mystyles.likebtn : null } name="like" size={18} color="black" />
+                                <TouchableOpacity onPress={() => {hasliked ? setDislikedpostid(newitem._id) : setLikedpostid(item._id)}}>
+                                    <EvilIcons style={hasliked ? Mystyles.likebtn : null} name="like" size={18} color="black" />
                                 </TouchableOpacity>
                                 <Text style={Mystyles.postactiondatatext}>{newitem.likes.length}</Text>
                             </View>
@@ -155,6 +176,15 @@ export default function Postdetails() {
 
 
                     </View>
+                    <View style={Mystyles.closebtn}>{ 
+                        newitem.postedBy._id == userred._id ?
+                        <TouchableOpacity onPress={() => {setDeletepostid(newitem._id)}}>
+                            <MaterialIcons name="cancel-presentation" size={24} color="red" />
+                        </TouchableOpacity>
+                        : null 
+                    }
+                    </View>
+
 
                 </View>
 
@@ -164,7 +194,7 @@ export default function Postdetails() {
 
                     data={newitem.comments}
                     showsVerticalScrollIndicator={false}
-                    renderItem={({item}) => {return (<Commentitem Comments={item} />)}}
+                    renderItem={({item}) => {return (<Commentitem Comments={item} postid={newitem._id} loggeduserid={userred._id}/>)}}
                     keyExtractor={(item) => {return (item._id)}}
 
 
@@ -173,12 +203,12 @@ export default function Postdetails() {
             </View>
             <View style={Mystyles.writecommentview}>
                 <TextInput
-                 placeholder="Write a comment"
-                 style={Mystyles.inputtext} 
-                 defaultValue={textarea}
-                 onChangeText={(textarea) => {setTextarea(textarea);}}
-                 ref={commentref}
-                 />
+                    placeholder="Write a comment"
+                    style={Mystyles.inputtext}
+                    defaultValue={textarea}
+                    onChangeText={(textarea) => {setTextarea(textarea);}}
+                    ref={commentref}
+                />
                 <TouchableOpacity onPress={newcomment}>
                     <Text style={Mystyles.commentbtntext}>Comment</Text>
                 </TouchableOpacity>
@@ -211,5 +241,6 @@ const Mystyles = StyleSheet.create({
     },
     inputtext: {flex: 1},
     commentbtntext: {fontWeight: 700, color: "#35b870"},
-    likebtn:{color:"blue"}
+    likebtn: {color: "blue"},
+    closebtn: {}
 });

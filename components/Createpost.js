@@ -5,7 +5,7 @@ import {Text, View, StyleSheet, TouchableOpacity, SafeAreaView, TextInput} from 
 import {EvilIcons} from "@expo/vector-icons";
 import {AntDesign} from '@expo/vector-icons';
 import {useNavigation} from "@react-navigation/native";
-import {createpost,setnewpost} from '../actions/admin/post';
+import {createpost,redirectafterpost} from '../actions/admin/post';
 
 
 export default function Createpost() {
@@ -15,21 +15,24 @@ export default function Createpost() {
     const auth = useSelector((state) => state.auth);
     const [textarea, setTextarea] = useState("");
     const postref =useRef(null);
-
+    const [updatecompo,setUpdatecompo] =useState(false);
     const {user: userred} = auth;
     const postred = useSelector((state) => state.post);
 
+    
 
+  
     useEffect(()=>{
-      //  postref.newpost &&  navigation.goBack();
+      
 
-    },[postref.newpost]);
-   
-    useEffect(()=>{
-    //    return ()=>{
-    //        dispatch(setnewpost(false));
-    //    }
-    },[]);
+       if(  postred.newpostcreated == true ){  navigation.goBack()}
+
+       return()=>{
+        let obj={val:false};
+        dispatch(redirectafterpost(obj));
+       }
+
+    },[postred.newpostcreated ]);
 
 	
 	
@@ -45,7 +48,7 @@ export default function Createpost() {
 			dispatch(createpost(details));
 			setTextarea("");
             postref.current.clear();
-
+            setUpdatecompo(!updatecompo);
 		}
 	}
 

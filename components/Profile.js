@@ -1,7 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux";
+import * as ImagePicker from 'expo-image-picker';
 
-import {Text, View, StyleSheet, TouchableOpacity, SafeAreaView, Image, FlatList} from 'react-native';
+import {Text, View, StyleSheet, TouchableOpacity, SafeAreaView, Image, FlatList, Platform} from 'react-native';
 import {AntDesign} from '@expo/vector-icons';
 import {useNavigation} from "@react-navigation/native";
 import {dummypostdata} from '../Data/Postdata';
@@ -9,6 +10,7 @@ import Feeditem from './Feeditem';
 import {Feather} from '@expo/vector-icons';
 
 import {getpostbyuser} from '../actions/admin/post';
+import {changeProfilePic, userByID} from '../actions/admin/getuseractions';
 
 
 export default function Profile() {
@@ -20,15 +22,20 @@ export default function Profile() {
 
     const [ownposts, setOwnposts] = useState({});
 
-    const propicurl= userred.pofilePicture ? userred.pofilePicture : "https://mernecombucket.s3.amazonaws.com/dAInx6qFL-nopic2.jpg";
+    const [currentuser, setCurrentuser] = useState([]);
+    const [profilepicture, setProfilepicture] = useState(null);
 
-   
+
+    const propicurl = userred.pofilePicture ? userred.pofilePicture : "https://mernecombucket.s3.amazonaws.com/dAInx6qFL-nopic2.jpg";
+
+    
+
 
     useEffect(() => {
-		let user={id:userred._id};
-		dispatch(getpostbyuser(user));
-		
-	}, []);
+        let user = {id: userred._id};
+        dispatch(getpostbyuser(user));
+
+    }, []);
 
 
 
@@ -39,46 +46,119 @@ export default function Profile() {
 
     }, [postred.posts]);
 
+    useEffect(() => {
+
+        checkpermission();
+
+    }, []);
+
+
     const navigation = useNavigation();
+
+
+    const submitProductForm = () => {
+        if (profilepicture) {
+            const form = new FormData();
+
+            let uriArray = profilepicture.split(".");
+            let fileType = uriArray[uriArray.length - 1];
+
+            form.append("id", userred._id);
+            form.append("profilepic", {
+                uri:profilepicture,
+                name: `photo.${fileType}`,
+                type: `image/${fileType}`,
+               
+            
+            });
+
+
+            dispatch(changeProfilePic(form));
+            console.log(profilepicture);
+
+        }
+    };
+
+    const checkpermission = async () => {
+        if (Platform.OS !== 'web') {
+            const {status} = await ImagePicker.requestMediaLibraryPermissionsAsync();
+            if (status !== 'granted') {
+                alert('Sorry, we need camera roll permissions to make this work!');
+            }
+        }
+    };
+
+
+
+
+    const pickImage = async () => {
+
+
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            allowsEditing: true,
+            aspect: [4, 3],
+            quality: 1,
+        });
+
+        if (!result.canceled) {
+            setProfilepicture(result.assets[0].uri);
+            console.log(result);
+
+
+        }
+    };
+
 
     return (
         <SafeAreaView style={Mystyles.profileview}>
             <View style={Mystyles.statusbarempty}></View>
             <View style={Mystyles.headerview}>
-                <TouchableOpacity onPress={() => {navigation.navigate("Home",  { screen: 'Bottomtabs',},)}}>
+                <TouchableOpacity onPress={() => {navigation.navigate("Home", {screen: 'Bottomtabs', }, )}}>
                     <AntDesign name="arrowleft" size={30} color="#35b870" />
 
                 </TouchableOpacity>
 
-            <Text style={Mystyles.headertext}>Profile</Text>
+                <Text style={Mystyles.headertext}>Profile</Text>
             </View>
-        <View style={Mystyles.aboutview}>
-            <Image source={{uri : propicurl}}
-                style={Mystyles.propic}
+            <View style={Mystyles.aboutview}>
+                <Image source={{uri: profilepicture != null ? profilepicture : propicurl}}
+                    style={Mystyles.propic}
+                />
+                <Text style={Mystyles.nametext}>{`${userred.firstName} ${userred.lastName}`}</Text>
+                <TouchableOpacity
+                    style={Mystyles.changepropictouchable}
+                    onPress={pickImage}
+                >
+                    <Text style={Mystyles.changepropictext}>Change Profile Picture</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                    style={Mystyles.changepropictouchable}
+                    onPress={submitProductForm}
+                >
+                    <Text style={Mystyles.changepropictext}>UPDATE</Text>
+                </TouchableOpacity>
+
+            </View>
+
+            <View style={Mystyles.postsview}>
+            </View>
+            <FlatList
+                data={Object.keys(ownposts)}
+
+                renderItem={({item}) => {return (<Feeditem item={ownposts[item]} fromprofile={true} />)}}
+                keyExtractor={(item) => {return (ownposts[item]._id)}}
             />
-            <Text style={Mystyles.nametext}>{`${userred.firstName} ${userred.lastName}`}</Text>
-            <TouchableOpacity style={Mystyles.changepropictouchable}>
-                <Text style={Mystyles.changepropictext}>Change Profile Picture</Text>
-            </TouchableOpacity>
-        </View>
-
-        <View style={Mystyles.postsview}>
-        </View>
-        <FlatList
-            data={Object.keys(ownposts)}
-
-            renderItem={({item}) => {return (<Feeditem item={ownposts[item]} fromprofile={true} />)}}
-            keyExtractor={(item) => {return (ownposts[item]._id)}}
-        />
 
 
-        <View style={Mystyles.absoluteview}>
-            <TouchableOpacity onPress={() => {navigation.navigate("Createpost")}}>
-                <View style={Mystyles.plusview}>
-                    <Feather name="plus" size={32} color="#fff" />
-                </View>
-            </TouchableOpacity>
-        </View>
+            <View style={Mystyles.absoluteview}>
+                <TouchableOpacity onPress={() => {navigation.navigate("Createpost")}}>
+                    <View style={Mystyles.plusview}>
+                        <Feather name="plus" size={32} color="#fff" />
+                    </View>
+                </TouchableOpacity>
+            </View>
 
 
         </SafeAreaView >
