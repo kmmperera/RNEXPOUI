@@ -1,11 +1,11 @@
 import React, {useState, useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {userByID, } from '../actions/admin/getuseractions';
+import {getfriendsuggestions} from '../actions/admin/getuseractions';
 
 import {Text, View, StyleSheet, TouchableOpacity, FlatList, SafeAreaView} from 'react-native';
-import {dummyfollowings} from '../Data/Followingsdata';
 import Followingsitem from './Followingsitem';
-
+import Suggestions from './Suggestions';
 
 export default function Followings() {
 
@@ -13,9 +13,25 @@ export default function Followings() {
     const auth = useSelector((state) => state.auth);
     const {user: userred} = auth;
     const [currentuser, setCurrentuser] = useState([]);
-    
+
     const dispatch = useDispatch();
 
+
+    useEffect(() => {
+        if (userred._id != "" ) {
+           // dispatch(getfriendsuggestions({id: userred._id, following:userred.following }));
+           const followingobj = allusers && allusers.userbyid[0] && allusers.userbyid[0].following.length > 0 ? allusers.userbyid[0].following :userred.following ;
+           dispatch(getfriendsuggestions({id: userred._id, following: followingobj}));
+
+        }
+    }, []);
+
+    useEffect(() => {
+        if (userred._id != "" ) {
+            const followingobj = allusers && allusers.userbyid[0] && allusers.userbyid[0].following.length > 0 ? allusers.userbyid[0].following :userred.following ;
+            dispatch(getfriendsuggestions({id: userred._id, following: followingobj}));
+        }
+    }, [allusers.followed,allusers.updatedUser]);
 
 
     useEffect(() => {
@@ -26,29 +42,58 @@ export default function Followings() {
 
     useEffect(() => {
         setCurrentuser(allusers.userbyid);
-       // console.log(allusers.userbyid);
+        // console.log(allusers.userbyid);
     }, [allusers.userbyid, currentuser]);
+
+    useEffect(() => {
+         console.log(allusers.suggestions);
+
+    }, [allusers.updatedUser, allusers.suggestions]);
+
 
 
 
     return (
         <SafeAreaView style={Mystyles.followingsconatiner}>
 
-
-
+        { allusers && allusers.userbyid[0] && allusers.userbyid[0].following.length > 0 ?
+         <View style={Mystyles.followingsview}>
+         <Text style={Mystyles.suggestionstext}>Followings :</Text>
             <FlatList
-                data={allusers && allusers.userbyid[0] &&  allusers.userbyid[0].following.length > 0 && allusers.userbyid[0].following}
+                data={allusers && allusers.userbyid[0] && allusers.userbyid[0].following.length > 0 && allusers.userbyid[0].following}
 
-                renderItem={({item}) => {return (<Followingsitem item={item}/>)}}
-                keyExtractor={(item) => {return (item._id)}}
+                renderItem={({item}) => {return (<Followingsitem item={item} />)}}
+                keyExtractor={(item,index) => {return (index)}}
             />
+        </View>
+        : null 
+        }
+        { 
+            allusers && allusers.suggestions && Object.keys(allusers.suggestions).length > 0 ? 
+        <View style={Mystyles.suggestionsview}>
 
+        
+        <Text style={Mystyles.suggestionstext}>Suggestions :</Text>
+
+        
+            <FlatList
+                data={allusers && allusers.suggestions && Object.keys(allusers.suggestions).length > 0 && Object.keys(allusers.suggestions)}
+
+                renderItem={({item}) => {return (<Suggestions item={allusers.suggestions[item]} />)}}
+                keyExtractor={(item,index) => {return (index)}}
+            />
+        </View>
+        : null
+        }
         </SafeAreaView>
     );
 }
 
 const Mystyles = StyleSheet.create({
 
-    followingsconatiner: {flex:1,},
-  
+    followingsconatiner: {flex: 1, },
+    followingsview:{flex:1},
+    suggestionsview:{flex:1},
+    suggestionstext:{fontSize:12,fontWeight:700,color:"#35b870",marginLeft:20,marginVertical:5}
+
 });

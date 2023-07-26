@@ -5,7 +5,7 @@ import {Text, View, StyleSheet, TouchableOpacity, Image} from 'react-native';
 import {EvilIcons} from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 
-export default function Feeditem({item,fromprofile}) {
+export default function Feeditem({item,fromprofile,Parentcompo}) {
     const auth = useSelector((state) => state.auth);
    
     const {user: userred} = auth;
@@ -15,7 +15,7 @@ export default function Feeditem({item,fromprofile}) {
     let hasliked = item.likes && item.likes.includes(userred._id);
 
     return (
-        <TouchableOpacity onPress={() => {navigation.navigate("Postdetails",{item,  previous_screen: fromprofile ? 'Profile' :""})}}>
+        <TouchableOpacity onPress={() => {navigation.navigate("Postdetails",{item, Parentcompo, previous_screen: fromprofile ? 'Profile' :""})}}>
             <View style={Mystyles.feedconatiner}>
 
                 <View style={Mystyles.feeditemview}>

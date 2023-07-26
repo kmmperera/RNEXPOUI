@@ -14,6 +14,7 @@ const signin=(user)=>{
 			let{user,token}= res.data;
 			  AsyncStorage.setItem("user", JSON.stringify(user));
 			  AsyncStorage.setItem("token", JSON.stringify(token));
+		//	AsyncStorage.setItem("token", token);
 
 	//AsyncStorage.setItem("user", user);
 

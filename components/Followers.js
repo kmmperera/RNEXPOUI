@@ -34,15 +34,19 @@ export default function Followings() {
     return (
         <SafeAreaView style={Mystyles.followersconatiner}>
 
-
-
+        { 
+            allusers && allusers.userbyid[0] &&  allusers.userbyid[0].followers.length > 0 ?
             <FlatList
                 data={ allusers && allusers.userbyid[0] &&  allusers.userbyid[0].followers.length > 0 && allusers.userbyid[0].followers}
 
                 renderItem={({item}) => {return (<Followersitem item={item} />)}}
                 keyExtractor={(item) => {return ( item._id)}}
             />
-
+            : <View style={Mystyles.nofollowerstext}>
+                <Text> You do not have Followers Yet.</Text>
+                
+                </View>
+        }
         </SafeAreaView>
     );
 }
@@ -50,5 +54,6 @@ export default function Followings() {
 const Mystyles = StyleSheet.create({
 
     followersconatiner: {flex: 1, },
+    nofollowerstext:{alignItems:"center",justifyContent:"center",flex:1},
 
 });

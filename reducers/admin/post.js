@@ -1,6 +1,7 @@
 const initState = {
 
 	posts:{},
+	showuserposts:{},
 	error:null,
 	likedpost:{},
 	unlikedpost:{},
@@ -46,7 +47,28 @@ const post= (state = initState, action) => {
 				
 				
             }
-            break;
+			break;
+			
+	case "showuserpostsuccess" :
+			state={
+				...state,
+				error:null,
+				showuserposts:action.payload.posts,
+			
+
+
+			}	
+			break;
+
+	case "showuserpostfailed" :
+			state={
+				...state,
+				error:action.payload.error,
+
+			}	
+			break;		
+			
+			
 
 	case "clearposts":
             state = {

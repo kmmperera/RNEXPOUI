@@ -11,7 +11,7 @@ user:{
 	role:'',
 	pofilePicture:null,
 	_id:'',
-
+	following:[],
         
 	},
 token:null,	
@@ -81,6 +81,17 @@ token:null,
 		 error:action.payload.error,
 		}
 	break;
+
+	case "followsuccess":
+	state = {
+		...state,
+		user:{...state.user ,... {...state.user.following.push( Object.keys(action.payload.updatedUser)[0])} }
+	//	updatedUser: action.payload.updatedUser,
+	//suggestions: {...state.suggestions, ...action.payload.updatedUser},
+	//	userbyid:[...state.userbyid , ...state.userbyid[0].following.push(action.payload.updatedUser)]
+	}
+	break;
+
 default:
 		state={...state,}
 	

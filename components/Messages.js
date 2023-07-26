@@ -20,6 +20,7 @@ export default function Messages() {
 
     const auth = useSelector((state) => {return state.auth});
     const chatsred = useSelector((state) => {return state.chats});
+    const chatboxuser = useSelector ((state)=>{return state.noti});
     const {user: userred} = auth;
     const [message, setMessage] = useState("");
     const [reciever, setReciever] = useState("");
@@ -54,7 +55,7 @@ export default function Messages() {
         if (userred && userred._id != "") {
             dispatch(getInbox({id: userred._id}));
         }
-    }, [userred._id]);
+    }, [userred._id,chatboxuser.notifictions]);
 
     useEffect(() => {
 
@@ -145,6 +146,7 @@ export default function Messages() {
         socket.current.on("welcome", (message) => {setArrivalMessage(message)});
     }
     const socketMessage = () => {
+        if(reciever != "") { 
         let notifiction = {message: message, reciever: reciever, sender: userred._id};
         const fakeid=Math.floor(Math.random() * 10000);
         const modifiednotification ={...notifiction,_id:fakeid}
@@ -156,6 +158,7 @@ export default function Messages() {
         socket.current.emit("sendMessage", {sender: userred._id, reciever: reciever, message: message});
         setMessage("");
         textInputref.current.clear();
+        }
     }
 
 
@@ -204,6 +207,7 @@ export default function Messages() {
                     
                     />
                 </View>
+                { allusers.inbox && allusers.inbox.length > 0 ?
                 <View style={Mystyles.sendconatinerview}>
                     <TextInput
                         style={Mystyles.textinput}
@@ -217,6 +221,8 @@ export default function Messages() {
                         <Text style={Mystyles.sendtext}>Send</Text>
                     </TouchableOpacity>
                 </View>
+                : null 
+                }
             </View>
         </SafeAreaView>
     );

@@ -81,6 +81,27 @@ const userByID=(details)=>{
 	}
 }
 
+const showuserByID=(details)=>{
+	return async (dispatch) => {
+	try{
+		let res;
+		//details={id:}
+		res=await axios.post("/userByID",{details});
+		if (res.status === 200) {
+			let {user}=res.data;
+			dispatch({ type: "showusersuccess",payload:{user}});
+		}
+		else{
+			let {error}=res.data;
+			dispatch({ type: "showuserfailed",payload:{error}});
+		}
+	}
+	catch(error){dispatch({ type: "showuserfailed",payload:{error}});}
+	}
+}
+
+
+
 
 const follow=(details)=>{
 	return async (dispatch) => {
@@ -140,4 +161,4 @@ const changeProfilePic=(details)=>{
 	}
 }
 
-export {getallusers,getfriendsuggestions,userByID,follow,unfollow,changeProfilePic,getInbox};
+export {getallusers,getfriendsuggestions,userByID,follow,unfollow,changeProfilePic,getInbox,showuserByID};

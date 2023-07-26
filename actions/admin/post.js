@@ -63,6 +63,32 @@ const getpostbyuser=(user)=>{
 
 }
 
+const getpostforshowuser=(user)=>{
+	return async(dispatch)=>{
+		try{
+			let res;
+		    dispatch({ type: "clearposts"});
+
+      		res=await axios.post("/getpostbyuser",{user});
+			if(res.status === 200){
+
+				let {postsobj}=res.data;
+			dispatch({ type: "showuserpostsuccess",payload:{posts :postsobj}});
+					}
+			else{
+			let {error}=res.data;
+			dispatch({ type: "showuserpostfailed",payload:{error}});
+				}
+		}
+		catch(error){
+	dispatch({ type: "showuserpostfailed",payload:{error}});
+		}
+
+	}
+
+
+}
+
 const like=(details)=>{
 	return async(dispatch)=>{
 		try{
@@ -262,4 +288,4 @@ const redirectafterdeletepost =(val)=>{
 	}
 }
 
-export {createpost,getpostbyuser,postByID,getNewsFeed,deletePost,like,unlike,comment,deletecomment,redirectafterpost,redirectafterdeletepost};
+export {createpost,getpostbyuser,postByID,getNewsFeed,deletePost,like,unlike,comment,deletecomment,redirectafterpost,redirectafterdeletepost,getpostforshowuser};

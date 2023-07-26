@@ -34,11 +34,11 @@ export default function Commentitem({Comments, postid, loggeduserid}) {
                     <Text style={Mystyles.pronametext}>{Comments.postedBy.firstName}</Text>
                     <Text style={Mystyles.commentcontenttext}>{Comments.text}</Text>
                 </View>
-                <View>
+                <View style={Mystyles.deletecomentview}>
                     {
                         Comments.postedBy._id == loggeduserid ?
                             <TouchableOpacity onPress={()=>{deletecommentfunc(Comments._id, postid)}}>
-                                <MaterialIcons name="cancel-presentation" size={24} color="red" />
+                                <MaterialIcons name="cancel-presentation" size={18} color="red" />
 
                             </TouchableOpacity>
                             : null
@@ -58,5 +58,6 @@ export default function Commentitem({Comments, postid, loggeduserid}) {
         pronametext: {fontSize: 14, fontWeight: 700},
         commentcontainerview: {paddingRight: 20},
         commentcontenttext: {flexShrink: 1},
+        deletecomentview:{position:"relative",top:5,right:5,flex:1,alignItems:"flex-end"},
 
     });

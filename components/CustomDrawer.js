@@ -2,6 +2,7 @@ import React,{useEffect} from 'react';
 import {View, Text, ImageBackground, Image, TouchableOpacity, StyleSheet} from 'react-native';
 import {DrawerContentScrollView, DrawerItemList, } from '@react-navigation/drawer';
 import {Ionicons} from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 
 import {signout, isUserLoggedIn} from '../actions/authactions';
 import {useDispatch, useSelector} from "react-redux";
@@ -10,6 +11,13 @@ function CustomDrawer(props) {
 
     const dispatch = useDispatch();
     const auth = useSelector((state) => state.auth);
+    const navigation =useNavigation();
+
+    const {user: userred} = auth;
+
+    const propicurl =  userred.pofilePicture ? userred.pofilePicture : "https://mernecombucket.s3.amazonaws.com/dAInx6qFL-nopic2.jpg";
+
+
 
     useEffect(() => {
 
@@ -38,12 +46,12 @@ function CustomDrawer(props) {
                    
 
                     <Image
-                        source={require('../assets/nopic.png')}
+                        source={{uri:propicurl}}
                         style={DrawerStyle.profilePic}
                     />
 
                     <Text style={DrawerStyle.nametext}>
-                        John Doe
+                        {`${userred.firstName} ${userred.lastName}`}
                     </Text>
 
                     

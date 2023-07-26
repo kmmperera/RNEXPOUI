@@ -7,6 +7,8 @@ const initState = {
 	updatedUser: {},
 	userafterpicupdated: {},
 	inbox: [],
+	followed: false,
+	showuserbyid: [],
 
 }
 
@@ -64,12 +66,36 @@ const getusers = (state = initState, action) => {
 
 			}
 			break;
+
+
+		case "showusersuccess":
+			state = {
+				...state,
+				showuserbyid: action.payload.user,
+
+
+			}
+			break;
+
+		case "showuserfailed":
+			state = {
+				...state,
+				error: action.payload.error,
+
+
+			}
+			break;
+
+
+
+
 		case "followsuccess":
 			state = {
 				...state,
 				updatedUser: action.payload.updatedUser,
-				suggestions: {...state.suggestions, ...action.payload.updatedUser}
-
+				suggestions: {...state.suggestions, ...action.payload.updatedUser},
+				followed: !state.followed,
+				//	userbyid:[...state.userbyid , ...state.userbyid[0].following.push(action.payload.updatedUser)]
 			}
 			break;
 		case "followfailed":
@@ -86,6 +112,7 @@ const getusers = (state = initState, action) => {
 				...state,
 				updatedUser: action.payload.updatedUser,
 				suggestions: {...state.suggestions, ...action.payload.updatedUser}
+
 
 
 			}

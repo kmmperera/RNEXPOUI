@@ -28,7 +28,7 @@ export default function Profile() {
 
     const propicurl = userred.pofilePicture ? userred.pofilePicture : "https://mernecombucket.s3.amazonaws.com/dAInx6qFL-nopic2.jpg";
 
-    
+
 
 
     useEffect(() => {
@@ -65,16 +65,20 @@ export default function Profile() {
 
             form.append("id", userred._id);
             form.append("profilepic", {
-                uri:profilepicture,
+                uri: profilepicture,
                 name: `photo.${fileType}`,
                 type: `image/${fileType}`,
-               
-            
+
+
             });
 
 
             dispatch(changeProfilePic(form));
-            console.log(profilepicture);
+            setProfilepicture(null);
+
+            console.log("state variable profilepicture", profilepicture);
+            console.log("form data from profile compo", form.profilepic);
+
 
         }
     };
@@ -103,7 +107,7 @@ export default function Profile() {
 
         if (!result.canceled) {
             setProfilepicture(result.assets[0].uri);
-            console.log(result);
+            console.log("result obj from image picker", result);
 
 
         }
@@ -126,20 +130,20 @@ export default function Profile() {
                     style={Mystyles.propic}
                 />
                 <Text style={Mystyles.nametext}>{`${userred.firstName} ${userred.lastName}`}</Text>
+                { 
+                    profilepicture == null ?
                 <TouchableOpacity
                     style={Mystyles.changepropictouchable}
-                    onPress={pickImage}
-                >
+                    onPress={pickImage}>
                     <Text style={Mystyles.changepropictext}>Change Profile Picture</Text>
                 </TouchableOpacity>
-
+                :
                 <TouchableOpacity
                     style={Mystyles.changepropictouchable}
-                    onPress={submitProductForm}
-                >
+                    onPress={submitProductForm}>
                     <Text style={Mystyles.changepropictext}>UPDATE</Text>
                 </TouchableOpacity>
-
+                }
             </View>
 
             <View style={Mystyles.postsview}>
@@ -147,10 +151,10 @@ export default function Profile() {
             <FlatList
                 data={Object.keys(ownposts)}
 
-                renderItem={({item}) => {return (<Feeditem item={ownposts[item]} fromprofile={true} />)}}
+                renderItem={({item}) => {return (<Feeditem item={ownposts[item]} fromprofile={true}  Parentcompo="Profile"
+                />)}}
                 keyExtractor={(item) => {return (ownposts[item]._id)}}
             />
-
 
             <View style={Mystyles.absoluteview}>
                 <TouchableOpacity onPress={() => {navigation.navigate("Createpost")}}>

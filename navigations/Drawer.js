@@ -1,4 +1,6 @@
-import React from 'react';
+import React ,{useState, useEffect} from 'react';
+import {useDispatch, useSelector} from "react-redux";
+
 import {Image, Pressable} from 'react-native';
 import {NavigationContainer, DefaultTheme} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -21,6 +23,7 @@ import Messages from '../components/Messages';
 import Postdetails from '../components/Postdetails';
 import Createpost from '../components/Createpost';
 import Profile from '../components/Profile';
+import Userprofile from '../components/Usersprofile';
 
 const Wrapperstack = createNativeStackNavigator();
 const Stacknav = createNativeStackNavigator();
@@ -116,11 +119,26 @@ function Stacknavfunc() {
             < Stacknav.Screen name="Bottomtabs" component={Bottomtabnavfunc} />
             < Stacknav.Screen name="Postdetails" component={Postdetails} />
             < Stacknav.Screen name="Createpost" component={Createpost} />
+            < Stacknav.Screen name="Userprofile" component={Userprofile} />
+
         </Stacknav.Navigator>
 
     );
 }
 function Bottomtabnavfunc({navigation}) {
+
+    const auth = useSelector((state) => state.auth);
+    
+
+    const {user: userred} = auth;
+
+    const propicurl =  userred.pofilePicture ? userred.pofilePicture : "https://mernecombucket.s3.amazonaws.com/dAInx6qFL-nopic2.jpg";
+
+
+
+
+
+
     return (
 
         <Bottomtabnav.Navigator
@@ -146,7 +164,7 @@ function Bottomtabnavfunc({navigation}) {
                             <Pressable onPress={() => {navigation.openDrawer();}}>
 
                                 <Image
-                                    source={require("../assets/nopic.png")}
+                                    source={{uri :propicurl}}
                                     style={{
                                         width: 40,
                                         height: 40,

@@ -12,7 +12,7 @@ import {deletePost, like, unlike, comment, redirectafterdeletepost} from '../act
 
 export default function Postdetails() {
 
-    const {params: {item, previous_screen}, } = useRoute();
+    const {params: {item, previous_screen,Parentcompo}, } = useRoute();
     const navigation = useNavigation();
     const commentref = useRef(null);
 
@@ -30,7 +30,7 @@ export default function Postdetails() {
     const [deletepostid, setDeletepostid] = useState("");
     const [likedpostid, setLikedpostid] = useState("");
     const [dislikedpostid, setDislikedpostid] = useState("");
-    let hasliked = newitem.likes && newitem.likes.includes(userred._id);
+    let hasliked = newitem && newitem.likes && newitem.likes.includes(userred._id);
     let hascomments = newitem.comments && newitem.comments.length > 0;
 
 
@@ -40,8 +40,8 @@ export default function Postdetails() {
 
         if (postred.postdeleted == true) {
 
-            previous_screen == "Profile" ? navigation.navigate("Profile") : navigation.goBack();
-           
+           // previous_screen == "Profile" ? navigation.navigate("Profile") : navigation.navigate(Parentcompo);
+           navigation.navigate("Feed");
         }
 
         return () => {
@@ -133,7 +133,7 @@ export default function Postdetails() {
         <SafeAreaView style={Mystyles.postdetailsview}>
             <View style={Mystyles.statusbarempty}></View>
             <View style={Mystyles.headerview}>
-                <TouchableOpacity onPress={() => {previous_screen == "Profile" ? navigation.navigate("Profile") : navigation.goBack()}}>
+                <TouchableOpacity onPress={() => { navigation.navigate("Feed");}}>
                     <AntDesign name="arrowleft" size={30} color="#35b870" />
 
                 </TouchableOpacity>
@@ -153,8 +153,9 @@ export default function Postdetails() {
                         />
                     </View>
                     <View style={Mystyles.postcontentwrapper}>
+                    <TouchableOpacity onPress={()=>{newitem.postedBy._id == userred._id ? navigation.navigate("Profile") : navigation.navigate("Userprofile",{showuserid: newitem.postedBy._id})}}>
                         <Text style={Mystyles.postedby}>{`${newitem.postedBy.firstName} `}</Text>
-
+                    </TouchableOpacity>
                         <Text style={Mystyles.postcontenttext}>{newitem.text}</Text>
                         <View style={Mystyles.iconview}>
                             <View style={Mystyles.iconwrapperview}>
