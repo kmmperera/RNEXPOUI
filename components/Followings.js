@@ -13,25 +13,28 @@ export default function Followings() {
     const auth = useSelector((state) => state.auth);
     const {user: userred} = auth;
     const [currentuser, setCurrentuser] = useState([]);
-
+    const[currentsuggestions,setCurrentsuggestions]=useState();
+    const[followedtoggle,setFollowedtoggle] =useState();
     const dispatch = useDispatch();
 
 
     useEffect(() => {
         if (userred._id != "" ) {
-           // dispatch(getfriendsuggestions({id: userred._id, following:userred.following }));
+          
            const followingobj = allusers && allusers.userbyid[0] && allusers.userbyid[0].following.length > 0 ? allusers.userbyid[0].following :userred.following ;
            dispatch(getfriendsuggestions({id: userred._id, following: followingobj}));
-
+           
         }
+        allusers && setFollowedtoggle(allusers.followed);
     }, []);
 
     useEffect(() => {
         if (userred._id != "" ) {
             const followingobj = allusers && allusers.userbyid[0] && allusers.userbyid[0].following.length > 0 ? allusers.userbyid[0].following :userred.following ;
             dispatch(getfriendsuggestions({id: userred._id, following: followingobj}));
+          
         }
-    }, [allusers.followed,allusers.updatedUser]);
+    }, [allusers.userbyid]);
 
 
     useEffect(() => {
@@ -40,15 +43,7 @@ export default function Followings() {
         }
     }, [userred._id, allusers.userafterpicupdated, allusers.updatedUser]);
 
-    useEffect(() => {
-        setCurrentuser(allusers.userbyid);
-        // console.log(allusers.userbyid);
-    }, [allusers.userbyid, currentuser]);
 
-    useEffect(() => {
-         console.log(allusers.suggestions);
-
-    }, [allusers.updatedUser, allusers.suggestions]);
 
 
 

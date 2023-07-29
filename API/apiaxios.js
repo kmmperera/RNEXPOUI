@@ -70,4 +70,24 @@ apiInstance.interceptors.request.use(
     }
 );
 
+apiInstance.interceptors.response.use(
+  (res) => {
+    return res;
+  },
+  (error) => {
+    const status = error.response ? error.response.status : 400;
+    if (status && status === 401) {
+      // localStorage.clear();
+        store.dispatch({ type:"logout"});
+    }
+    console.log(error.response);
+
+    return Promise.reject(error);
+  }
+);
+
+
+
+
+
 export default apiInstance ;

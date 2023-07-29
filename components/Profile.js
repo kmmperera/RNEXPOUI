@@ -24,6 +24,7 @@ export default function Profile() {
 
     const [currentuser, setCurrentuser] = useState([]);
     const [profilepicture, setProfilepicture] = useState(null);
+    const [profilepictureobj, setProfilepictureobj] = useState(null);
 
 
     const propicurl = userred.pofilePicture ? userred.pofilePicture : "https://mernecombucket.s3.amazonaws.com/dAInx6qFL-nopic2.jpg";
@@ -60,25 +61,27 @@ export default function Profile() {
         if (profilepicture) {
             const form = new FormData();
 
-            let uriArray = profilepicture.split(".");
-            let fileType = uriArray[uriArray.length - 1];
+             let uriArray = profilepicture.split(".");
+             let fileType = uriArray[uriArray.length - 1];
 
             form.append("id", userred._id);
             form.append("profilepic", {
-                uri: profilepicture,
+               
+
+                uri:profilepicture,
                 name: `photo.${fileType}`,
-                type: `image/${fileType}`,
+                type:`image/${fileType}`,
 
 
             });
 
-
+           // setFormobj(form);
             dispatch(changeProfilePic(form));
+           
+
+            console.log("state variable profilepicture uri ", profilepicture);
+            console.log("file type", fileType);
             setProfilepicture(null);
-
-            console.log("state variable profilepicture", profilepicture);
-            console.log("form data from profile compo", form.profilepic);
-
 
         }
     };
@@ -106,7 +109,9 @@ export default function Profile() {
         });
 
         if (!result.canceled) {
+            // setProfilepicture(result.assets[0].uri);
             setProfilepicture(result.assets[0].uri);
+            setProfilepictureobj(result.assets[0]);
             console.log("result obj from image picker", result);
 
 
@@ -130,19 +135,19 @@ export default function Profile() {
                     style={Mystyles.propic}
                 />
                 <Text style={Mystyles.nametext}>{`${userred.firstName} ${userred.lastName}`}</Text>
-                { 
+                {
                     profilepicture == null ?
-                <TouchableOpacity
-                    style={Mystyles.changepropictouchable}
-                    onPress={pickImage}>
-                    <Text style={Mystyles.changepropictext}>Change Profile Picture</Text>
-                </TouchableOpacity>
-                :
-                <TouchableOpacity
-                    style={Mystyles.changepropictouchable}
-                    onPress={submitProductForm}>
-                    <Text style={Mystyles.changepropictext}>UPDATE</Text>
-                </TouchableOpacity>
+                        <TouchableOpacity
+                            style={Mystyles.changepropictouchable}
+                            onPress={pickImage}>
+                            <Text style={Mystyles.changepropictext}>Change Profile Picture</Text>
+                        </TouchableOpacity>
+                        :
+                        <TouchableOpacity
+                            style={Mystyles.changepropictouchable}
+                            onPress={submitProductForm}>
+                            <Text style={Mystyles.changepropictext}>UPDATE</Text>
+                        </TouchableOpacity>
                 }
             </View>
 
@@ -151,8 +156,10 @@ export default function Profile() {
             <FlatList
                 data={Object.keys(ownposts)}
 
-                renderItem={({item}) => {return (<Feeditem item={ownposts[item]} fromprofile={true}  Parentcompo="Profile"
-                />)}}
+                renderItem={({item}) => {
+                    return (<Feeditem item={ownposts[item]} fromprofile={true} Parentcompo="Profile"
+                    />)
+                }}
                 keyExtractor={(item) => {return (ownposts[item]._id)}}
             />
 

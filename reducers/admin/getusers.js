@@ -93,9 +93,9 @@ const getusers = (state = initState, action) => {
 			state = {
 				...state,
 				updatedUser: action.payload.updatedUser,
-				suggestions: {...state.suggestions, ...action.payload.updatedUser},
-				followed: !state.followed,
-				//	userbyid:[...state.userbyid , ...state.userbyid[0].following.push(action.payload.updatedUser)]
+			
+				followed: state.followed == true ? false : true ,
+			//	userbyid:[...state.userbyid , ...state.userbyid[0].following.push( action.payload.updatedUser[Object.keys(action.payload.updatedUser)[0] ])   ],
 			}
 			break;
 		case "followfailed":

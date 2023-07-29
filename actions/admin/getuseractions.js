@@ -143,11 +143,17 @@ const unfollow=(details)=>{
 	}
 }
 const changeProfilePic=(details)=>{
+
+	let config = {
+		headers: {
+			"Content-Type": "multipart/form-data"
+		}
+	  };
 	return async (dispatch) => {
 	try{
 		let res;
 		// details={followingid:,loggeduser:};
-		res=await axios.post("/changeProfilePic",details);
+		res=await axios.post("/changeProfilePic",details,config);
 		if (res.status === 200) {
 			let {updatedUser}=res.data;
 			dispatch({ type: "changeprofiepicsuccess",payload:{updatedUser}});
@@ -155,9 +161,13 @@ const changeProfilePic=(details)=>{
 		else{
 			let {error}=res.data;
 			dispatch({ type: "changeprofiepicfailed",payload:{error}});
+			console.log("axios error for change profile pic: " ,error);
 		}
 	}
-	catch(error){dispatch({ type: "changeprofiepicfailed",payload:{error}});}
+	catch(error){
+		dispatch({ type: "changeprofiepicfailed",payload:{error}});
+		console.log("axios error for change profile pic: " ,error);
+	}
 	}
 }
 

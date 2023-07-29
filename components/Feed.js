@@ -51,20 +51,20 @@ export default function Feed() {
           };
         const valoftoken =tokenget();
 
-        console.log("token from redux is",auth.token);
-        console.log("token from async storage ",valoftoken);
+     //   console.log("token from redux is",auth.token);
+     //   console.log("token from async storage ",valoftoken);
 
     }, []);
 
    useEffect(()=>{
 
-    console.log(allusers.userbyid);
-    console.log(allusers.updatedUser);
+    //console.log(allusers.userbyid);
+  //  console.log(allusers.updatedUser);
    },[allusers]);
 
    useEffect(()=>{
 
-    console.log(auth.user);
+   // console.log(auth.user);
    
    },[auth.user,allusers]);
 

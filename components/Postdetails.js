@@ -1,18 +1,21 @@
 import React, {useState, useEffect, useRef} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 
-import {Text, View, StyleSheet, TouchableOpacity, SafeAreaView, Image, FlatList, TextInput} from 'react-native';
+import {Text, View, StyleSheet, TouchableOpacity, SafeAreaView, Image, FlatList, TextInput, Modal, Alert} from 'react-native';
 import {useRoute, useNavigation} from "@react-navigation/native";
 import {EvilIcons} from "@expo/vector-icons";
 import {AntDesign} from '@expo/vector-icons';
 import {MaterialIcons} from '@expo/vector-icons';
+import {MaterialCommunityIcons} from '@expo/vector-icons';
+
 import Commentitem from './Commentitem';
+import Closemodal from './Closemodal';
 
 import {deletePost, like, unlike, comment, redirectafterdeletepost} from '../actions/admin/post';
 
 export default function Postdetails() {
 
-    const {params: {item, previous_screen,Parentcompo}, } = useRoute();
+    const {params: {item, previous_screen, Parentcompo}, } = useRoute();
     const navigation = useNavigation();
     const commentref = useRef(null);
 
@@ -30,6 +33,8 @@ export default function Postdetails() {
     const [deletepostid, setDeletepostid] = useState("");
     const [likedpostid, setLikedpostid] = useState("");
     const [dislikedpostid, setDislikedpostid] = useState("");
+    const [closemodalopen, setClosemodalopen] = useState(false);
+
     let hasliked = newitem && newitem.likes && newitem.likes.includes(userred._id);
     let hascomments = newitem.comments && newitem.comments.length > 0;
 
@@ -40,8 +45,8 @@ export default function Postdetails() {
 
         if (postred.postdeleted == true) {
 
-           // previous_screen == "Profile" ? navigation.navigate("Profile") : navigation.navigate(Parentcompo);
-           navigation.navigate("Feed");
+            // previous_screen == "Profile" ? navigation.navigate("Profile") : navigation.navigate(Parentcompo);
+            navigation.navigate("Feed");
         }
 
         return () => {
@@ -133,7 +138,7 @@ export default function Postdetails() {
         <SafeAreaView style={Mystyles.postdetailsview}>
             <View style={Mystyles.statusbarempty}></View>
             <View style={Mystyles.headerview}>
-                <TouchableOpacity onPress={() => { navigation.navigate("Feed");}}>
+                <TouchableOpacity onPress={() => {navigation.navigate("Feed");}}>
                     <AntDesign name="arrowleft" size={30} color="#35b870" />
 
                 </TouchableOpacity>
@@ -153,9 +158,9 @@ export default function Postdetails() {
                         />
                     </View>
                     <View style={Mystyles.postcontentwrapper}>
-                    <TouchableOpacity onPress={()=>{newitem.postedBy._id == userred._id ? navigation.navigate("Profile") : navigation.navigate("Userprofile",{showuserid: newitem.postedBy._id})}}>
-                        <Text style={Mystyles.postedby}>{`${newitem.postedBy.firstName} `}</Text>
-                    </TouchableOpacity>
+                        <TouchableOpacity onPress={() => {newitem.postedBy._id == userred._id ? navigation.navigate("Profile") : navigation.navigate("Userprofile", {showuserid: newitem.postedBy._id})}}>
+                            <Text style={Mystyles.postedby}>{`${newitem.postedBy.firstName} `}</Text>
+                        </TouchableOpacity>
                         <Text style={Mystyles.postcontenttext}>{newitem.text}</Text>
                         <View style={Mystyles.iconview}>
                             <View style={Mystyles.iconwrapperview}>
@@ -177,15 +182,57 @@ export default function Postdetails() {
 
 
                     </View>
-                    <View style={Mystyles.closebtn}>{ 
-                        newitem.postedBy._id == userred._id ?
-                        <TouchableOpacity onPress={() => {setDeletepostid(newitem._id)}}>
-                            <MaterialIcons name="cancel-presentation" size={24} color="red" />
-                        </TouchableOpacity>
-                        : null 
-                    }
-                    </View>
+                    <View>
+                        <View>
 
+                            <TouchableOpacity onPress={() => {setClosemodalopen(true)}}>
+                                <MaterialCommunityIcons  name="dots-vertical" size={18} color="black" />
+
+                            </TouchableOpacity>
+
+                        </View>
+                        <View style={Mystyles.modalview}>
+                            <View style={Mystyles.absolutemodalview}>
+
+                                <Closemodal visible={closemodalopen}>
+                                    <View style={Mystyles.modalclosebtnview}>
+                                        <TouchableOpacity style={Mystyles.closemodalbtn} onPress={() => {setClosemodalopen(false)}}>
+
+                                            <MaterialIcons name="cancel-presentation" size={24} color="black" />
+                                        </TouchableOpacity>
+
+
+                                    </View>
+                                    <View>
+                                        {newitem.postedBy._id == userred._id ?
+                                            <View style={Mystyles.deletebtnview}>
+                                                <TouchableOpacity style={Mystyles.deletetouchable} onPress={() => {setDeletepostid(newitem._id)}}>
+
+                                                    <MaterialIcons name="cancel-presentation" size={24} color="red" />
+                                                    <Text style={Mystyles.deletetext}>Delete this post </Text>
+                                                </TouchableOpacity>
+                                            </View>
+                                            : <View style={Mystyles.nopermissionview}>
+                                                <Text style={Mystyles.nopermissiontext}>You do not have permissions to Delete this post!</Text>
+                                            </View>
+                                        }
+                                    </View>
+                                </Closemodal>
+
+                            </View>
+
+
+                        </View>
+                        <View style={Mystyles.closebtn}>{
+                            // newitem.postedBy._id == userred._id ?
+                            //     <TouchableOpacity onPress={() => {setDeletepostid(newitem._id)}}>
+                            //         <MaterialIcons name="cancel-presentation" size={24} color="red" />
+                            //     </TouchableOpacity>
+                            //     : null
+                        }
+                        </View>
+
+                    </View>
 
                 </View>
 
@@ -195,7 +242,7 @@ export default function Postdetails() {
 
                     data={newitem.comments}
                     showsVerticalScrollIndicator={false}
-                    renderItem={({item}) => {return (<Commentitem Comments={item} postid={newitem._id} loggeduserid={userred._id}/>)}}
+                    renderItem={({item}) => {return (<Commentitem Comments={item} postid={newitem._id} loggeduserid={userred._id} />)}}
                     keyExtractor={(item) => {return (item._id)}}
 
 
@@ -243,5 +290,14 @@ const Mystyles = StyleSheet.create({
     inputtext: {flex: 1},
     commentbtntext: {fontWeight: 700, color: "#35b870"},
     likebtn: {color: "blue"},
-    closebtn: {}
+    closebtn: {},
+    modalview: {},
+    absolutemodalview: {},
+    deletetouchable: {flexDirection: "row", alignItems: "center", marginTop: 40},
+    deletetext: {marginLeft: 10, fontSize: 16, fontWeight: 500},
+    closemodalbtn: {flexDirection: "row", justifyContent: "flex-end"},
+    modalclosebtnview: {flexDirection: "row", justifyContent: "flex-end"},
+    nopermissionview: {flexDirection: "row", alignItems: "center", marginTop: 40},
+    nopermissiontext: {textAlign: "center"},
+    deletebtnview:{flexDirection:"row",justifyContent:"flex-start"}
 });
