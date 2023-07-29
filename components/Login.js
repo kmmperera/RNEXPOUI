@@ -91,11 +91,11 @@ export default function Login({navigation}) {
           keyboardVerticalOffset={Platform.OS === "ios" ? -64 : -50}
 
         >
-
+         <Header />
           <SafeAreaView style={Mystyles.container}>
 
             <View style={Mystyles.bigview}>
-              <Header />
+             
 
               <View style={Mystyles.proppicview}>
                 <Ionicons name="md-person-circle-outline" size={100} color="grey" />

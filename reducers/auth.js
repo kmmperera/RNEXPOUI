@@ -82,6 +82,16 @@ token:null,
 		}
 	break;
 
+	case "propicchangeforauth":
+	state = {
+		...state,
+		user: {...state.user , ...action.payload.updatedUser},
+
+
+	}
+	break;
+
+
 
 
 default:

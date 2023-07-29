@@ -1,4 +1,4 @@
-import React ,{useState, useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 
 import {Image, Pressable} from 'react-native';
@@ -128,13 +128,17 @@ function Stacknavfunc() {
 function Bottomtabnavfunc({navigation}) {
 
     const auth = useSelector((state) => state.auth);
-    
+
 
     const {user: userred} = auth;
 
-    const propicurl =  userred.pofilePicture ? userred.pofilePicture : "https://mernecombucket.s3.amazonaws.com/dAInx6qFL-nopic2.jpg";
+    const propicurl = userred.pofilePicture ? userred.pofilePicture : "https://mernecombucket.s3.amazonaws.com/dAInx6qFL-nopic2.jpg";
+
+    useEffect(() => {
 
 
+
+    }, [userred.pofilePicture]);
 
 
 
@@ -164,7 +168,7 @@ function Bottomtabnavfunc({navigation}) {
                             <Pressable onPress={() => {navigation.openDrawer();}}>
 
                                 <Image
-                                    source={{uri :propicurl}}
+                                    source={{uri: propicurl}}
                                     style={{
                                         width: 40,
                                         height: 40,

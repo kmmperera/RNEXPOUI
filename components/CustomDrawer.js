@@ -15,10 +15,18 @@ function CustomDrawer(props) {
 
     const {user: userred} = auth;
 
+
+
     const propicurl =  userred.pofilePicture ? userred.pofilePicture : "https://mernecombucket.s3.amazonaws.com/dAInx6qFL-nopic2.jpg";
 
 
 
+    useEffect(() => {
+
+
+
+    }, [userred.pofilePicture]);
+    
     useEffect(() => {
 
         dispatch(isUserLoggedIn());

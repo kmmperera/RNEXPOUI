@@ -77,10 +77,11 @@ export default function Register({navigation}) {
       keyboardVerticalOffset={Platform.OS === "ios" ? -64 : -50}
 
     >
+     <Header />
       <SafeAreaView style={Mystyles.container}>
 
         <View style={Mystyles.bigview}>
-          <Header />
+         
 
 
           <View style={Mystyles.proppicview}>

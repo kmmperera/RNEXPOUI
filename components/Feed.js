@@ -30,7 +30,7 @@ export default function Feed() {
             let feeddetails = {loggeduser: userred._id, following: userred.following};
             dispatch(getNewsFeed(feeddetails));
         }
-    }, [userred._id, userred,allusers.userbyid]);
+    }, [userred._id, userred,allusers.userbyid,userred.pofilePicture]);
 
 
     useEffect(() => {

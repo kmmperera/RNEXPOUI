@@ -157,6 +157,8 @@ const changeProfilePic=(details)=>{
 		if (res.status === 200) {
 			let {updatedUser}=res.data;
 			dispatch({ type: "changeprofiepicsuccess",payload:{updatedUser}});
+			dispatch({ type: "propicchangeforauth",payload:{updatedUser}});
+		//	console.log(res.data.updatedUser);
 		}
 		else{
 			let {error}=res.data;

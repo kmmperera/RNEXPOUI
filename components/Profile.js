@@ -18,6 +18,8 @@ export default function Profile() {
     const dispatch = useDispatch();
     const auth = useSelector((state) => state.auth);
     const postred = useSelector((state) => state.post);
+    const allusers = useSelector((state) => {return state.users});
+
     const {user: userred} = auth;
 
     const [ownposts, setOwnposts] = useState({});
@@ -25,10 +27,15 @@ export default function Profile() {
     const [currentuser, setCurrentuser] = useState([]);
     const [profilepicture, setProfilepicture] = useState(null);
     const [profilepictureobj, setProfilepictureobj] = useState(null);
+    const [propicurl,setPropicurl] =useState(userred.pofilePicture ? userred.pofilePicture : "https://mernecombucket.s3.amazonaws.com/dAInx6qFL-nopic2.jpg");
 
+   // const propicurl = userred.pofilePicture ? userred.pofilePicture : "https://mernecombucket.s3.amazonaws.com/dAInx6qFL-nopic2.jpg";
 
-    const propicurl = userred.pofilePicture ? userred.pofilePicture : "https://mernecombucket.s3.amazonaws.com/dAInx6qFL-nopic2.jpg";
+    useEffect(() => {
 
+        setPropicurl(userred.pofilePicture ? userred.pofilePicture : "https://mernecombucket.s3.amazonaws.com/dAInx6qFL-nopic2.jpg");
+
+    }, [userred.pofilePicture,allusers.userbyid]);
 
 
 
@@ -36,7 +43,7 @@ export default function Profile() {
         let user = {id: userred._id};
         dispatch(getpostbyuser(user));
 
-    }, []);
+    }, [userred.pofilePicture]);
 
 
 
@@ -81,7 +88,7 @@ export default function Profile() {
 
             console.log("state variable profilepicture uri ", profilepicture);
             console.log("file type", fileType);
-            setProfilepicture(null);
+         setProfilepicture(null);
 
         }
     };
