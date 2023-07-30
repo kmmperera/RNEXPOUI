@@ -89,15 +89,15 @@ const Mystyles = StyleSheet.create({
 
     commentitemview: {
         flex: 1, paddingLeft: 40, flexDirection: "row", paddingVertical: 10, paddingRight: 30, backgroundColor: "#f5fff5",
-        borderBottomColor: "#f0f2f0", borderBottomWidth: 1
+        borderBottomColor: "#f0f2f0", borderBottomWidth: 1,
     },
     proimg: {width: 44, height: 44, borderRadius: 22, marginRight: 20},
     pronametext: {fontSize: 14, fontWeight: 700},
-    commentcontainerview: {paddingRight: 20},
+    commentcontainerview: {paddingRight: 20,flex:1},
     commentcontenttext: {flexShrink: 1},
     deletecomentview: {position: "relative", top: 5, right: 5, flex: 1, alignItems: "flex-end"},
 
-    dotsview:{flexDirection:"row",justifyContent:"flex-end",flex:1},
+    dotsview:{flexDirection:"row",justifyContent:"flex-end"},
     modalview: {},
     absolutemodalview: {},
     deletetouchable: {flexDirection: "row", alignItems: "center", marginTop: 40},

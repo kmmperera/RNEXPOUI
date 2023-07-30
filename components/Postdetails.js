@@ -268,8 +268,8 @@ export default function Postdetails() {
 
 const Mystyles = StyleSheet.create({
     statusbarempty: {height: 30},
-    headerview: {height: 70, flexDirection: "row", alignItems: "center", paddingHorizontal: 10, },
-    headertext: {fontSize: 16, fontWeight: 600, marginLeft: 80},
+    headerview: {position:"relative",height: 70, flexDirection: "row", alignItems: "center", paddingHorizontal: 10, },
+    headertext: {fontSize: 16, fontWeight: 600,position:"absolute",left:"50%",transform:[ { translateX:"-50%" },]},
     postdetailsview: {flex: 1},
     feedconatiner: {backgroundColor: "#e8e6e6", borderBottomColor: "#b8b6b6", borderBottomWidth: 1, },
     feeditemview: {padding: 20, flexDirection: "row"},

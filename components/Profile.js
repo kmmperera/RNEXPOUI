@@ -187,8 +187,8 @@ const Mystyles = StyleSheet.create({
 
     profileview: {flex: 1},
     statusbarempty: {height: 30},
-    headerview: {height: 70, flexDirection: "row", alignItems: "center", paddingHorizontal: 10, },
-    headertext: {fontSize: 16, fontWeight: 600, marginLeft: 80},
+    headerview: {height: 70, flexDirection: "row", alignItems: "center", paddingHorizontal: 10,position:"relative" },
+    headertext: {fontSize: 16, fontWeight: 600, position:"absolute",left:"50%",transform:[ { translateX:"-50%" },]},
     aboutview: {marginTop: 20, justifyContent: "center", alignItems: "center"},
     postsview: {marginTop: 20},
     propic: {width: 80, height: 80, borderRadius: 40},

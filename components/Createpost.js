@@ -71,7 +71,7 @@ export default function Createpost() {
                     editable
                     multiline
                     numberOfLines={4}
-                    maxLength={40}
+                    maxLength={120}
                     placeholder="What's up ?"
                     ref={postref}
                     style={Mystyles.textinput}
@@ -90,8 +90,8 @@ export default function Createpost() {
 
 const Mystyles = StyleSheet.create({
     statusbarempty: {height: 30},
-    headerview: {height: 70, flexDirection: "row", alignItems: "center", paddingHorizontal: 10, },
-    headertext: {fontSize: 16, fontWeight: 600, marginLeft: 80},
+    headerview: {height: 70, flexDirection: "row", alignItems: "center", paddingHorizontal: 10,position:"relative" },
+    headertext: {fontSize: 16, fontWeight: 600, position:"absolute",left:"50%",transform:[ { translateX:"-50%" },]},
     inputview:{borderWidth:1,borderColor:"#f0f2f0",borderRadius:8,margin:10,backgroundColor:"#f5fff5"},
     textinput:{padding:10,paddingBottom:30},
     createpostview: {flex: 1},
