@@ -18,16 +18,8 @@ export default function Suggestions({item}) {
     const {user: userred} = auth;
     const [followid, setFollowid] = useState("");
     const [unfollowid, setUnfollowid] = useState("");
-    // const[followdbyloggeduser,setFollowdbyloggeduser] =useState(false);
     const followdbyloggeduser = item.followers.includes(userred._id);
 
-    //    useEffect(()=>{
-
-    //     if(item.followers.includes(userred._id) == true ){
-    //         setFollowdbyloggeduser(true);
-    //     }
-    //     console.log("Followed :",followdbyloggeduser);
-    //    },[item]);
 
 
     useEffect(() => {

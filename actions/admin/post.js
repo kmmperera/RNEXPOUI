@@ -20,7 +20,6 @@ console.log(details);
 				let updatedpost={...posts[postid],postedBy:updatedpostedBy};
 				posts[postid]=updatedpost;
 				let postswithpropic=posts;
-				console.log(postswithpropic);
 			
 			dispatch({ type: "getpostsuccess",payload:{postswithpropic}});
 					}

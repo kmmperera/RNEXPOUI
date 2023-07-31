@@ -2,7 +2,6 @@ import React,{useState,useEffect,useRef} from 'react';
 import { useDispatch, useSelector } from "react-redux";
 
 import {Text, View, StyleSheet, TouchableOpacity, SafeAreaView, TextInput} from 'react-native';
-import {EvilIcons} from "@expo/vector-icons";
 import {AntDesign} from '@expo/vector-icons';
 import {useNavigation} from "@react-navigation/native";
 import {createpost,redirectafterpost} from '../actions/admin/post';

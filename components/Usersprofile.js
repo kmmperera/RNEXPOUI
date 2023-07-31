@@ -5,7 +5,6 @@ import {Text, View, StyleSheet, TouchableOpacity, SafeAreaView, Image, FlatList,
 import {AntDesign} from '@expo/vector-icons';
 import {useNavigation, useRoute} from "@react-navigation/native";
 import Feeditem from './Feeditem';
-import {Feather} from '@expo/vector-icons';
 import {MaterialIcons} from '@expo/vector-icons';
 
 import {sendnotifications} from '../actions/admin/notifications';

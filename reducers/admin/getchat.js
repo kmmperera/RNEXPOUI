@@ -29,21 +29,9 @@ const getchats= (state = initState, action) => {
             break;
 
 	case "newmessage":
-		//const newchats =pushtoarray(chats,action.payload.newmessage);
-		// let newchats=[...chats,action.payload.newmessage];
-		//let newmessage=action.payload.notification;
             state = {
                			...state,
 				chats :action.payload.localchat,
-			//	chats:chats.push(action.payload.newmessage),
-			//	chats:newchats,
-			//	chats:["this is a test","yeah"],
-			//chats:[...state.chats ,{
-			//	message :"from reducer",
-			//	sender:"99999",
-			//	reciever:"00000000000"
-			//	}
-			//],	
 				
             }
             break;

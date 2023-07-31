@@ -5,7 +5,6 @@ import * as ImagePicker from 'expo-image-picker';
 import {Text, View, StyleSheet, TouchableOpacity, SafeAreaView, Image, FlatList, Platform} from 'react-native';
 import {AntDesign} from '@expo/vector-icons';
 import {useNavigation} from "@react-navigation/native";
-import {dummypostdata} from '../Data/Postdata';
 import Feeditem from './Feeditem';
 import {Feather} from '@expo/vector-icons';
 
@@ -29,7 +28,6 @@ export default function Profile() {
     const [profilepictureobj, setProfilepictureobj] = useState(null);
     const [propicurl,setPropicurl] =useState(userred.pofilePicture ? userred.pofilePicture : "https://mernecombucket.s3.amazonaws.com/dAInx6qFL-nopic2.jpg");
 
-   // const propicurl = userred.pofilePicture ? userred.pofilePicture : "https://mernecombucket.s3.amazonaws.com/dAInx6qFL-nopic2.jpg";
 
     useEffect(() => {
 
@@ -86,8 +84,6 @@ export default function Profile() {
             dispatch(changeProfilePic(form));
            
 
-            console.log("state variable profilepicture uri ", profilepicture);
-            console.log("file type", fileType);
          setProfilepicture(null);
 
         }

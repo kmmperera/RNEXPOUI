@@ -2,7 +2,6 @@ import React ,{useState, useEffect}from 'react';
 import {useDispatch, useSelector} from "react-redux";
 
 import {Text, View, StyleSheet, TouchableOpacity, FlatList, SafeAreaView} from 'react-native';
-import {dummypostdata} from '../Data/Postdata';
 import Feeditem from './Feeditem';
 import {Feather} from '@expo/vector-icons';
 import {useNavigation} from '@react-navigation/native';
@@ -51,20 +50,15 @@ export default function Feed() {
           };
         const valoftoken =tokenget();
 
-     //   console.log("token from redux is",auth.token);
-     //   console.log("token from async storage ",valoftoken);
 
     }, []);
 
    useEffect(()=>{
 
-    //console.log(allusers.userbyid);
-  //  console.log(allusers.updatedUser);
    },[allusers]);
 
    useEffect(()=>{
 
-   // console.log(auth.user);
    
    },[auth.user,allusers]);
 

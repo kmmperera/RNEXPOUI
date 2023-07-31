@@ -12,7 +12,6 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {Ionicons} from "@expo/vector-icons";
 
 import CustomDrawer from '../components/CustomDrawer.js';
-import Dummy from '../components/Dummy';
 import Login from '../components/Login';
 import Register from '../components/Register';
 import Frontpage from '../components/Frontpage';

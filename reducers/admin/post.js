@@ -28,8 +28,6 @@ const post= (state = initState, action) => {
             break;
 	case "getpostsuccess":
 	
-	//let updatedpostedBy={_id:action.payload.posts.postedBy ,pofilePicture:action.payload.propic,firstName:action.payload.fname};
-	//let postswithpropic={...action.payload.posts,postedBy:updatedpostedBy};
             state = {
                			...state,
 				error:null,
@@ -79,8 +77,6 @@ const post= (state = initState, action) => {
             }
             break;
 	case "likesuccess":
-				/* let updatedpost=state.posts.find((p)=>(p._id == action.payload.details.postId));
-				updatedpost.likes.push(details.userId); */
 
             state = {
                		...state,
@@ -195,7 +191,6 @@ case "feedfailed":
             break;
 			
 case "deletepostsuccess":
-			//let newposts=state.posts.filter((p)=>(p._id != action.payload.details.postId));
 			let deletedid=action.payload.details.postId;
 		  let newposts=state.posts;
 		  delete newposts[deletedid] ;

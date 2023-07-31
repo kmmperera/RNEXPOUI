@@ -31,9 +31,6 @@ export default function Register({navigation}) {
 
   useEffect(() => {
 
-    console.log(auth.signup);
-
-    console.log(auth.error);
   }, [auth.signup, auth.error]);
 
   useEffect(() => {

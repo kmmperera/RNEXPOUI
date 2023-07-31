@@ -163,12 +163,10 @@ const changeProfilePic=(details)=>{
 		else{
 			let {error}=res.data;
 			dispatch({ type: "changeprofiepicfailed",payload:{error}});
-			console.log("axios error for change profile pic: " ,error);
 		}
 	}
 	catch(error){
 		dispatch({ type: "changeprofiepicfailed",payload:{error}});
-		console.log("axios error for change profile pic: " ,error);
 	}
 	}
 }

@@ -8,7 +8,6 @@ import {io} from "socket.io-client";
 
 import {Text, View, StyleSheet, TouchableOpacity, SafeAreaView, FlatList, ScrollView, TextInput} from 'react-native';
 import Messagesitem from './Messageitem';
-import {dummymessages} from '../Data/Messagesdata';
 import Chatitem from './Chatitem';
 
 
@@ -59,7 +58,6 @@ export default function Messages() {
 
     useEffect(() => {
 
-       // console.log(allusers.inbox);
 
     }, [allusers.inbox]);
     useEffect(() => {
@@ -81,7 +79,6 @@ export default function Messages() {
                 message: data.message,
             });
 
-            console.log(data);
 
         });
         return () => socket.current.disconnect();
@@ -89,7 +86,6 @@ export default function Messages() {
 
     useEffect(() => {
         socket.current.on("welcome", (message) => {
-            console.log(message);
 
         });
         console.log(arrivalMessage);
@@ -112,7 +108,6 @@ export default function Messages() {
             dispatch({type: "newmessage", payload: {localchat}});
 
         }
-        console.log(arrivalMessage);
     }, [arrivalMessage]);
     useEffect(() => {
         if (reciever !== "" && reciever !== "notselected") {

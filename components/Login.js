@@ -38,33 +38,18 @@ export default function Login({navigation}) {
 
   }, []);
 
-  // useEffect(() => {
-
-  //  console.log(submitted)
-
-  // }, [submitted]);
 
 
 
   useEffect(() => {
-    console.log(auth.loggedin);
 
 
   }, [auth.loggedin]);
 
   useEffect(() => {
 
-    console.log(userred.firstName);
-
-    console.log(auth.error);
   }, [userred.firstName, auth.error]);
 
-  // useEffect(() => {
-
-
-  //   if (auth.loggedin) {navigation.navigate("Drawer")}
-
-  // }, [authstate]);
 
   const cleanupfunc = () => {
     setUsername("");
@@ -75,8 +60,6 @@ export default function Login({navigation}) {
 
     const user = {username, password};
     dispatch(signin(user));
-  //  cleanupfunc();
-    //setSubmitted(!submitted);
   }
   
 
