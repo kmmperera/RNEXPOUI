@@ -5,6 +5,7 @@ import {Text, View, StyleSheet, TouchableOpacity, SafeAreaView, TextInput} from 
 import {AntDesign} from '@expo/vector-icons';
 import {useNavigation} from "@react-navigation/native";
 import {createpost,redirectafterpost} from '../actions/admin/post';
+import Backbutton from './Backbutton';
 
 
 export default function Createpost() {
@@ -56,14 +57,8 @@ export default function Createpost() {
     return (
         <SafeAreaView style={Mystyles.createpostview}>
             <View style={Mystyles.statusbarempty}></View>
-            <View style={Mystyles.headerview}>
-                <TouchableOpacity onPress={() => {navigation.goBack()}}>
-                    <AntDesign name="arrowleft" size={30} color="#35b870" />
+            <Backbutton headername="Create Post" backscreen="Feed"/>
 
-                </TouchableOpacity>
-
-                <Text style={Mystyles.headertext}>Create Post</Text>
-            </View>
             <View style={Mystyles.inputview}>
 
                 <TextInput

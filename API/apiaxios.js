@@ -36,13 +36,16 @@ apiInstance.interceptors.response.use(
     const status = error.response ? error.response.status : 400;
     if (status && status === 401) {
       // localStorage.clear();
-      try{
-        localStorage.clear();
-      }
-      catch(error){
-        store.dispatch({ type:"logout"});
-      }
-        store.dispatch({ type:"logout"});
+      // try{
+      //   store.dispatch({ type:"logout"});
+      //   localStorage.clear();
+      // }
+      // catch(error){
+      //   store.dispatch({ type:"logout"});
+      // }
+      store.dispatch(signout());
+    //   store.dispatch({ type:"logout"});
+
     }
 
     return Promise.reject(error);

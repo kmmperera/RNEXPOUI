@@ -4,12 +4,12 @@ import {useDispatch, useSelector} from "react-redux";
 import {Text, View, StyleSheet, TouchableOpacity, SafeAreaView, Image, FlatList, TextInput, Modal, Alert} from 'react-native';
 import {useRoute, useNavigation} from "@react-navigation/native";
 import {EvilIcons} from "@expo/vector-icons";
-import {AntDesign} from '@expo/vector-icons';
 import {MaterialIcons} from '@expo/vector-icons';
 import {MaterialCommunityIcons} from '@expo/vector-icons';
 
 import Commentitem from './Commentitem';
 import Closemodal from './Closemodal';
+import Backbutton from './Backbutton';
 
 import {deletePost, like, unlike, comment, redirectafterdeletepost} from '../actions/admin/post';
 
@@ -137,14 +137,8 @@ export default function Postdetails() {
     return (
         <SafeAreaView style={Mystyles.postdetailsview}>
             <View style={Mystyles.statusbarempty}></View>
-            <View style={Mystyles.headerview}>
-                <TouchableOpacity onPress={() => {navigation.navigate("Feed");}}>
-                    <AntDesign name="arrowleft" size={30} color="#35b870" />
 
-                </TouchableOpacity>
-
-                <Text style={Mystyles.headertext}>Post Details</Text>
-            </View>
+            <Backbutton headername="Post Details" backscreen="Feed"/>
 
             <View style={Mystyles.feedconatiner}>
 
@@ -186,7 +180,7 @@ export default function Postdetails() {
                         <View>
 
                             <TouchableOpacity onPress={() => {setClosemodalopen(true)}}>
-                                <MaterialCommunityIcons  name="dots-vertical" size={18} color="black" />
+                                <MaterialCommunityIcons name="dots-vertical" size={18} color="black" />
 
                             </TouchableOpacity>
 
@@ -268,8 +262,6 @@ export default function Postdetails() {
 
 const Mystyles = StyleSheet.create({
     statusbarempty: {height: 30},
-    headerview: {position:"relative",height: 70, flexDirection: "row", alignItems: "center", paddingHorizontal: 10, },
-    headertext: {fontSize: 16, fontWeight: 600,position:"absolute",left:"50%",transform:[ { translateX:"-50%" },]},
     postdetailsview: {flex: 1},
     feedconatiner: {backgroundColor: "#e8e6e6", borderBottomColor: "#b8b6b6", borderBottomWidth: 1, },
     feeditemview: {padding: 20, flexDirection: "row"},
@@ -299,5 +291,5 @@ const Mystyles = StyleSheet.create({
     modalclosebtnview: {flexDirection: "row", justifyContent: "flex-end"},
     nopermissionview: {flexDirection: "row", alignItems: "center", marginTop: 40},
     nopermissiontext: {textAlign: "center"},
-    deletebtnview:{flexDirection:"row",justifyContent:"flex-start"}
+    deletebtnview: {flexDirection: "row", justifyContent: "flex-start"}
 });

@@ -11,6 +11,8 @@ import {Feather} from '@expo/vector-icons';
 import {getpostbyuser} from '../actions/admin/post';
 import {changeProfilePic, userByID} from '../actions/admin/getuseractions';
 
+import Backbutton from './Backbutton';
+
 
 export default function Profile() {
 
@@ -26,14 +28,14 @@ export default function Profile() {
     const [currentuser, setCurrentuser] = useState([]);
     const [profilepicture, setProfilepicture] = useState(null);
     const [profilepictureobj, setProfilepictureobj] = useState(null);
-    const [propicurl,setPropicurl] =useState(userred.pofilePicture ? userred.pofilePicture : "https://mernecombucket.s3.amazonaws.com/dAInx6qFL-nopic2.jpg");
+    const [propicurl, setPropicurl] = useState(userred.pofilePicture ? userred.pofilePicture : "https://mernecombucket.s3.amazonaws.com/dAInx6qFL-nopic2.jpg");
 
 
     useEffect(() => {
 
         setPropicurl(userred.pofilePicture ? userred.pofilePicture : "https://mernecombucket.s3.amazonaws.com/dAInx6qFL-nopic2.jpg");
 
-    }, [userred.pofilePicture,allusers.userbyid]);
+    }, [userred.pofilePicture, allusers.userbyid]);
 
 
 
@@ -66,25 +68,25 @@ export default function Profile() {
         if (profilepicture) {
             const form = new FormData();
 
-             let uriArray = profilepicture.split(".");
-             let fileType = uriArray[uriArray.length - 1];
+            let uriArray = profilepicture.split(".");
+            let fileType = uriArray[uriArray.length - 1];
 
             form.append("id", userred._id);
             form.append("profilepic", {
-               
 
-                uri:profilepicture,
+
+                uri: profilepicture,
                 name: `photo.${fileType}`,
-                type:`image/${fileType}`,
+                type: `image/${fileType}`,
 
 
             });
 
-           // setFormobj(form);
+            // setFormobj(form);
             dispatch(changeProfilePic(form));
-           
 
-         setProfilepicture(null);
+
+            setProfilepicture(null);
 
         }
     };
@@ -125,14 +127,9 @@ export default function Profile() {
     return (
         <SafeAreaView style={Mystyles.profileview}>
             <View style={Mystyles.statusbarempty}></View>
-            <View style={Mystyles.headerview}>
-                <TouchableOpacity onPress={() => {navigation.navigate("Home", {screen: 'Bottomtabs', }, )}}>
-                    <AntDesign name="arrowleft" size={30} color="#35b870" />
 
-                </TouchableOpacity>
+            <Backbutton headername="Profile" backscreen="Feed" />
 
-                <Text style={Mystyles.headertext}>Profile</Text>
-            </View>
             <View style={Mystyles.aboutview}>
                 <Image source={{uri: profilepicture != null ? profilepicture : propicurl}}
                     style={Mystyles.propic}
@@ -183,8 +180,8 @@ const Mystyles = StyleSheet.create({
 
     profileview: {flex: 1},
     statusbarempty: {height: 30},
-    headerview: {height: 70, flexDirection: "row", alignItems: "center", paddingHorizontal: 10,position:"relative" },
-    headertext: {fontSize: 16, fontWeight: 600, position:"absolute",left:"50%",transform:[ { translateX:"-50%" },]},
+    headerview: {height: 70, flexDirection: "row", alignItems: "center", paddingHorizontal: 10, position: "relative"},
+    headertext: {fontSize: 16, fontWeight: 600, position: "absolute", left: "50%", transform: [{translateX: "-50%"},]},
     aboutview: {marginTop: 20, justifyContent: "center", alignItems: "center"},
     postsview: {marginTop: 20},
     propic: {width: 80, height: 80, borderRadius: 40},
