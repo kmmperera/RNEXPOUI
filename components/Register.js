@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
   Platform,
+  ActivityIndicator
 } from 'react-native';
 import {Ionicons} from '@expo/vector-icons';
 import Header from './Header';
@@ -47,7 +48,9 @@ export default function Register({navigation}) {
 
 		
 		const user={firstname,lastname,email,password,expoPushToken};
-		dispatch(signup(user));
+    dispatch(signup(user));
+    dispatch({ type: "signuprequest"});
+
 	//	cleanupfunc();
   
 		
@@ -151,6 +154,14 @@ export default function Register({navigation}) {
 
       </SafeAreaView>
 
+           { auth.signuprequest == true ?
+            <View style={Mystyles.loadingview}>
+                 <ActivityIndicator size="large" color="#35b870" />
+            </View>
+            : null 
+            }
+
+
     </KeyboardAvoidingView>
 
   );
@@ -189,4 +200,6 @@ const Mystyles = StyleSheet.create({
   },
   createacctext: {color: '#35b870', fontSize: 12},
   donthaveacctext: {fontSize: 12},
+  loadingview:{position:"absolute",top:"50%",right:"50%",  transform: [{translateX: 20}],}
+
 });

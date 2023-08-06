@@ -12,16 +12,37 @@ const initState = {
 	postbyid:{},
 	newpostcreated:false,
 	postdeleted:false,
+	feedrequest:false,
+	ownerpostsloading:false,
 }
 
 const post= (state = initState, action) => {
 	switch (action.type) {
+
+
+		case "userpostsloading":
+		state = {
+					   ...state,	
+					   ownerpostsloading:true,  		
+
+				}
+		break;
+
+		case "feedrequest":
+		state = {
+					   ...state,	
+					   feedrequest:true,  		
+
+				}
+		break;
+
+
 	case "getpostssuccess":
             state = {
                			...state,
 				error:null,
 				posts:{...state.posts,...action.payload.posts},
-				
+				ownerpostsloading:false,  
 
 				
             }
@@ -31,9 +52,11 @@ const post= (state = initState, action) => {
             state = {
                			...state,
 				error:null,
+				
 				posts:{...action.payload.postswithpropic , ...state.posts  },
 				feed:{...action.payload.postswithpropic , ...state.feed},
 				newpostcreated:true,
+				ownerpostsloading:false,  
 				
             }
             break;		
@@ -42,7 +65,7 @@ const post= (state = initState, action) => {
             state = {
                			...state,
 				error:action.payload.error,
-				
+			
 				
             }
 			break;
@@ -176,8 +199,8 @@ case "postByIDfailed":
 case "feedsuccess":
             state = {
                		...state,
-					feed:action.payload.feed
-				
+					feed:action.payload.feed,
+					feedrequest:false,
 				
             }
             break;
@@ -186,7 +209,7 @@ case "feedfailed":
             state = {
                	...state,
 				error:action.payload.error,
-				
+				feedrequest:false,
             }
             break;
 			

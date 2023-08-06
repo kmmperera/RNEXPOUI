@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
+import {Text, View, StyleSheet, TouchableOpacity,StatusBar} from 'react-native';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {signout, isUserLoggedIn} from '../actions/authactions';
 import {useDispatch, useSelector} from "react-redux";
@@ -38,7 +38,9 @@ export default function Header() {
   
 
   return (
+  
     <View style={Mystyles.headerview}>
+      <StatusBar  barStyle="light-content" />
       <View style={Mystyles.containerview}>
         <TouchableOpacity onPress={() => {auth.loggedin && navigation.navigate("Drawer")}}>
           <Text style={Mystyles.chatmetext}>ChatMe</Text>

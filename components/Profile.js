@@ -12,6 +12,7 @@ import {getpostbyuser} from '../actions/admin/post';
 import {changeProfilePic, userByID} from '../actions/admin/getuseractions';
 
 import Backbutton from './Backbutton';
+import Pageloader from './Pageloader';
 
 
 export default function Profile() {
@@ -28,6 +29,8 @@ export default function Profile() {
     const [currentuser, setCurrentuser] = useState([]);
     const [profilepicture, setProfilepicture] = useState(null);
     const [profilepictureobj, setProfilepictureobj] = useState(null);
+    const [propicloading,setPropicloading] =useState();
+    const [postloading,setPostloading]=useState();
     const [propicurl, setPropicurl] = useState(userred.pofilePicture ? userred.pofilePicture : "https://mernecombucket.s3.amazonaws.com/dAInx6qFL-nopic2.jpg");
 
 
@@ -42,6 +45,7 @@ export default function Profile() {
     useEffect(() => {
         let user = {id: userred._id};
         dispatch(getpostbyuser(user));
+        dispatch({type: "userpostsloading"});
 
     }, [userred.pofilePicture]);
 
@@ -59,6 +63,21 @@ export default function Profile() {
         checkpermission();
 
     }, []);
+
+    useEffect(() => {
+
+        setPropicloading(allusers.profilepicloading);
+
+    }, [allusers.profilepicloading]);
+
+
+    useEffect(() => {
+
+        setPostloading(postred.ownerpostsloading);
+
+    }, [postred.ownerpostsloading]);
+
+
 
 
     const navigation = useNavigation();
@@ -84,6 +103,7 @@ export default function Profile() {
 
             // setFormobj(form);
             dispatch(changeProfilePic(form));
+            dispatch({type: "profilepicloading"});
 
 
             setProfilepicture(null);
@@ -170,6 +190,9 @@ export default function Profile() {
                     </View>
                 </TouchableOpacity>
             </View>
+            {
+                postloading || propicloading == true ? <Pageloader /> : null
+            }
 
 
         </SafeAreaView >

@@ -26,7 +26,7 @@ export default function Backnutton({headername, backscreen}) {
 
 const Mystyles = StyleSheet.create({
 
-    headerview: {position: "relative", height: 70, flexDirection: "row", alignItems: "center", paddingHorizontal: 10,justifyContent:"center" },
+    headerview: {position: "relative", height: 40, flexDirection: "row", alignItems: "center", paddingHorizontal: 10,justifyContent:"center" },
     backbtntouchableview: {position:"absolute",left:20},
     headertextview: {},
     backbtntouchable: {},

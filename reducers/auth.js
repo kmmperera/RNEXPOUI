@@ -1,3 +1,4 @@
+
 const initState = {
 signin:false,
 authenticating:false,
@@ -15,6 +16,9 @@ user:{
         
 	},
 token:null,	
+signinrequest:false,
+signuprequest:false,
+
 }
 
  const auth=(state = initState, action) => {
@@ -36,13 +40,16 @@ token:null,
 				error:null,
 				loggedin:true,
 				token:action.payload.token,
+				signinrequest:false,
+				
             }
             break;
 
 	case "loginfailed":
             state = {
                 ...state,
-		        error:action.payload.error,
+				error:action.payload.error,
+				signinrequest:false,
 		
             }
             break;
@@ -71,6 +78,7 @@ token:null,
 			
 			...initState,
 			signup:true,
+			signuprequest:false,
 			
 		}
 	break;
@@ -79,6 +87,7 @@ token:null,
 			
 			...initState,
 		 error:action.payload.error,
+		 signuprequest:false,
 		}
 	break;
 
@@ -88,6 +97,22 @@ token:null,
 		user: {...state.user , ...action.payload.updatedUser},
 
 
+	}
+	break;
+
+	case "loginrequest" :
+
+	state ={
+		...state,
+		signinrequest:true,
+	}
+	break;
+
+	case "signuprequest" :
+
+	state ={
+		...state,
+		signuprequest:true,
 	}
 	break;
 

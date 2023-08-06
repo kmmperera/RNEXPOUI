@@ -8,7 +8,8 @@ import {
   TextInput,
   TouchableOpacity,
   KeyboardAvoidingView,
-  Platform
+  Platform,
+  ActivityIndicator
 } from 'react-native';
 
 
@@ -60,6 +61,8 @@ export default function Login({navigation}) {
 
     const user = {username, password};
     dispatch(signin(user));
+    dispatch({ type: "loginrequest"});
+
   }
   
 
@@ -136,8 +139,15 @@ export default function Login({navigation}) {
                 </View>
               </View>
             </View>
-
+           
           </SafeAreaView>
+
+           { auth.signinrequest == true ?
+            <View style={Mystyles.loadingview}>
+                 <ActivityIndicator size="large" color="#35b870" />
+            </View>
+            : null 
+            }
 
         </KeyboardAvoidingView>
      
@@ -146,7 +156,7 @@ export default function Login({navigation}) {
 }
 
 const Mystyles = StyleSheet.create({
-  container: {flex: 1},
+  container: {flex: 1,position:"relative"},
   bigview: {flex: 1, justifyContent: "space-around"},
   secondcontainer: {},
   proppicview: {paddingHorizontal: 40, alignItems: 'center'},
@@ -180,4 +190,5 @@ const Mystyles = StyleSheet.create({
   },
   createacctext: {color: '#35b870', fontSize: 12},
   donthaveacctext: {fontSize: 12},
+  loadingview:{position:"absolute",top:"50%",right:"50%",  transform: [{translateX: 20}],}
 });
