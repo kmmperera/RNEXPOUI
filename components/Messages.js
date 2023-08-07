@@ -99,7 +99,7 @@ export default function Messages() {
         socket.current.on("welcome", (message) => {
 
         });
-        console.log(arrivalMessage);
+       // console.log(arrivalMessage);
     }, [userred._id]);
 
 

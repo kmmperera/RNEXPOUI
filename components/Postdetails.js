@@ -94,15 +94,12 @@ export default function Postdetails() {
 
 
     useEffect(() => {
-        if (previous_screen == "Profile") {
-            setNewitem(postred.posts[item._id]);
-
-        }
-        else {
+     
+       
             setNewitem(postred.feed[item._id]);
 
-        }
-    }, [postred.feed, postred.posts]);
+        
+    }, [postred.feed]);
 
 
 

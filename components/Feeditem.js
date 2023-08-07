@@ -11,8 +11,8 @@ export default function Feeditem({item,fromprofile,Parentcompo}) {
     const {user: userred} = auth;
 
     const navigation =useNavigation();
-    const propicurl= item.postedBy.pofilePicture ? item.postedBy.pofilePicture : "https://mernecombucket.s3.amazonaws.com/dAInx6qFL-nopic2.jpg";
-    let hasliked = item.likes && item.likes.includes(userred._id);
+    const propicurl= item && item.postedBy && item.postedBy.pofilePicture ? item.postedBy.pofilePicture : "https://mernecombucket.s3.amazonaws.com/dAInx6qFL-nopic2.jpg";
+    let hasliked = item && item.likes && item.likes.includes(userred._id);
 
     return (
         <TouchableOpacity onPress={() => {navigation.navigate("Postdetails",{item, Parentcompo, previous_screen: fromprofile ? 'Profile' :""})}}>

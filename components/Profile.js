@@ -24,13 +24,13 @@ export default function Profile() {
 
     const {user: userred} = auth;
 
-    const [ownposts, setOwnposts] = useState({});
+    const [ownposts, setOwnposts] = useState([]);
 
     const [currentuser, setCurrentuser] = useState([]);
     const [profilepicture, setProfilepicture] = useState(null);
     const [profilepictureobj, setProfilepictureobj] = useState(null);
-    const [propicloading,setPropicloading] =useState();
-    const [postloading,setPostloading]=useState();
+    const [propicloading, setPropicloading] = useState();
+    const [postloading, setPostloading] = useState();
     const [propicurl, setPropicurl] = useState(userred.pofilePicture ? userred.pofilePicture : "https://mernecombucket.s3.amazonaws.com/dAInx6qFL-nopic2.jpg");
 
 
@@ -53,10 +53,46 @@ export default function Profile() {
 
     useEffect(() => {
 
-        setOwnposts(postred.posts);
+        if(postred && postred.feed){ 
 
+            let keysarray = Object.keys(postred.feed);
+            let mypostsarry =[];
+            for(let i=0; i < keysarray.length ; i++){
+                if(userred._id ==  postred.feed[keysarray[i]].postedBy._id ){
+                    mypostsarry.push(   postred.feed[keysarray[i]] );
+                }
+      
+            }
+            
+            setOwnposts(mypostsarry);
+    
+           // console.log(mypostsarry);
+    
+             }
+    
+    }, [postred.feed]);
 
-    }, [postred.posts]);
+    useEffect(() => {
+
+        if(postred && postred.feed){ 
+
+        let keysarray = Object.keys(postred.feed);
+        let mypostsarry =[];
+        for(let i=0; i < keysarray.length ; i++){
+            if(userred._id ==  postred.feed[keysarray[i]].postedBy._id ){
+                mypostsarry.push(   postred.feed[keysarray[i]] );
+            }
+  
+        }
+        
+        setOwnposts(mypostsarry);
+
+      //  console.log(mypostsarry);
+
+         }
+        
+    }, []);
+
 
     useEffect(() => {
 
@@ -173,16 +209,18 @@ export default function Profile() {
 
             <View style={Mystyles.postsview}>
             </View>
+            { ownposts && ownposts.length > 0 ? 
             <FlatList
-                data={Object.keys(ownposts)}
+                data={ownposts}
 
                 renderItem={({item}) => {
-                    return (<Feeditem item={ownposts[item]} fromprofile={true} Parentcompo="Profile"
+                    return (<Feeditem item={item} fromprofile={true} Parentcompo="Profile"
                     />)
                 }}
-                keyExtractor={(item) => {return (ownposts[item]._id)}}
+                keyExtractor={(item,index) => {return index}}
             />
-
+            :null
+            }
             <View style={Mystyles.absoluteview}>
                 <TouchableOpacity onPress={() => {navigation.navigate("Createpost")}}>
                     <View style={Mystyles.plusview}>
